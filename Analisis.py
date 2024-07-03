@@ -6,7 +6,7 @@ import re
 from compare import main
 
 # Load data
-data_path = 'dummy.csv'
+data_path = 'Map_full.csv'
 df = pd.read_csv(data_path)
 
 # Function to clean and convert coordinate strings to float
@@ -19,7 +19,7 @@ df['Coordinates x'] = df['Coordinates x'].apply(clean_coordinate)
 df['Coordinates y'] = df['Coordinates y'].apply(clean_coordinate)
 
 # Set the background image for the plot
-map_image_path = 'map_ml.jpg'
+map_image_path = 'map.PNG'
 
 # Load the background image and get its dimensions
 map_img = plt.imread(map_image_path)
@@ -33,22 +33,25 @@ def homepage():
     round_id = st.selectbox('Select Round', df[(df['Competition_id'] == competition_id) & (df['Match_id'] == match_id)]['Round'].unique())
     team = st.selectbox('Select Team', df[(df['Competition_id'] == competition_id) & (df['Match_id'] == match_id) & (df['Round'] == round_id)]['Team'].unique())
 
+
     # Streamlit widget for selecting metrics
     selected_metrics = st.multiselect('Select Metrics', [
-        'Turtle',
-        'Death (Mid-lane)',
-        'Kill (Mid-lane)',
-        'Death (Jungler-line)',
-        'Kill (Jungler-line)',
-        'Kill (Exp-lane)',
-        'Death (Exp-lane)',
+        'Death Mid-lane',
+        'Kill Jungler-line',
+        'Death Jungler-line',
+        'Kill Roamer-lane',
+        'Turtle Jungler-line',
+        'Death Roamer-lane',
+        'Death Exp-lane',
         'Outer Tower Destroy',
-        'Death (Gold-lane)',
+        'Kill Mid-lane',
         'Inner Tower Destroy',
-        'Lord',
+        'Lord Jungler-line',
         'Base Tower Destroy',
-        'Kill (Gold-lane)',
-        'Tower Destroy'
+        'Kill Exp-lane',
+        'Death Gold-lane',
+        'Turtle Exp-lane',
+        'Kill Gold-lane'
     ])
 
     # Streamlit widgets for figure size
@@ -65,9 +68,11 @@ def homepage():
     # First figure: All events for the selected team
     fig1, ax1 = plt.subplots(figsize=(fig_width, fig_height))
     ax1.imshow(map_img, extent=[0, img_width, img_height, 0])
-    sns.scatterplot(data=filtered_df, x='Coordinates x', y='Coordinates y', hue='Event', ax=ax1, s=100)
+    sns.scatterplot(data=filtered_df, x='Coordinates x', y='Coordinates y', hue='Event', ax=ax1, s=100, legend='brief')
     ax1.set_title(f'Events Map for Team: {team}')
+    ax1.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Place legend outside the plot
     st.pyplot(fig1)
+
 
     # Additional widgets for Event-player and Event-Game
     event_player = st.selectbox('Select Event Player', ['Mid-lane', 'Jungler-line', 'Exp-lane', 'Gold-lane', 'Roamer-lane'])
@@ -80,13 +85,14 @@ def homepage():
     filtered_player_df['Coordinates x'] = filtered_player_df['Coordinates x'] * img_width / 100
     filtered_player_df['Coordinates y'] = filtered_player_df['Coordinates y'] * img_height / 100
 
+    
     # Second figure: Specific events for the selected player role and event game
     fig2, ax2 = plt.subplots(figsize=(fig_width, fig_height))
     ax2.imshow(map_img, extent=[0, img_width, img_height, 0])
-    sns.scatterplot(data=filtered_player_df, x='Coordinates x', y='Coordinates y', hue='Event-Game', ax=ax2, s=100)
+    sns.scatterplot(data=filtered_player_df, x='Coordinates x', y='Coordinates y', hue='Event-Game', ax=ax2, s=100, legend='brief')
     ax2.set_title(f'{event_player} - {event_game} Events Map {team}')
+    ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Place legend outside the plot
     st.pyplot(fig2)
-
 
 
 # Add the imported function to the pages dictionary

@@ -5,7 +5,7 @@ import seaborn as sns
 import re
 
 # Load data
-data_path = 'dummy.csv'
+data_path = 'Map_full.csv'
 df = pd.read_csv(data_path)
 
 # Function to clean and convert coordinate strings to float
@@ -17,9 +17,10 @@ df['Coordinates x'] = df['Coordinates x'].apply(clean_coordinate)
 df['Coordinates y'] = df['Coordinates y'].apply(clean_coordinate)
 
 # Set the background image for the plot
-map_image_path = 'map_ml.jpg'
+map_image_path = 'map.PNG'
 map_img = plt.imread(map_image_path)
 img_height, img_width = map_img.shape[:2]
+
 def main():
     # Streamlit widgets for filtering
     competition_id = st.selectbox('Select Competition ID', df['Competition_id'].unique())
@@ -35,8 +36,8 @@ def main():
     team_a, team_b = teams_playing
 
     # Additional widgets for Event-player
-    event_player_team_a = st.selectbox('Select Event Player for Team A', ['Mid-lane', 'Jungler-line', 'Exp-lane', 'Gold-lane', 'Roamer-lane'])
-    event_player_team_b = st.selectbox('Select Event Player for Team B', ['Mid-lane', 'Jungler-line', 'Exp-lane', 'Gold-lane', 'Roamer-lane'])
+    event_player_team_a = st.selectbox(f'Select Event Player for {team_a}', ['Mid-lane', 'Jungler-line', 'Exp-lane', 'Gold-lane', 'Roamer-lane'])
+    event_player_team_b = st.selectbox(f'Select Event Player for {team_b}', ['Mid-lane', 'Jungler-line', 'Exp-lane', 'Gold-lane', 'Roamer-lane'])
 
     # Checkboxes for Event Game
     event_game_death = st.checkbox('Death', value=True)
@@ -83,6 +84,10 @@ def main():
     )
 
     ax.set_title(f'Events Map: {event_player_team_a} ({team_a}) vs {event_player_team_b} ({team_b})')
+
+    # Place legend outside the plot
+    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+
     st.pyplot(fig4)
 
 if __name__ == "__main__":
