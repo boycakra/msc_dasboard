@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 from compare import main
+from Over_results import Resulst
 
 # Load data
 data_path = 'Map_full.csv'
@@ -98,8 +99,9 @@ def homepage():
 # Add the imported function to the pages dictionary
 pages = {
     "Homepage": homepage,
-    
-    "AllPlayer": main  # Add the new page here
+    "Player Map": main,
+    "ResulstPlayer": Resulst 
+    # Add the new page here
 }
 
 # Sidebar navigation (unchanged)
