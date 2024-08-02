@@ -100,7 +100,7 @@ def homepage():
 pages = {
     "Homepage": homepage,
     "Player Map": main,
-    "ResulstPlayer": Results 
+    "ResulstPlayer": results 
     # Add the new page here
 }
 
