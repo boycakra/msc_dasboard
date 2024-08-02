@@ -9,7 +9,8 @@ import base64
 # Load data from CSV
 file_path = "Baru_matchDummy.csv"
 data = pd.read_csv(file_path)
-def Resulst():
+
+def Results():
     # Streamlit UI
     st.title('MLBB Match Radar Chart')
 
@@ -106,4 +107,4 @@ def Resulst():
     st.write(f'<embed type="image/svg+xml" src="data:image/svg+xml;base64,{base64.b64encode(radar_svg_enemy).decode("utf-8")}" />', unsafe_allow_html=True)
 
 if __name__ == "__main__":
-    Resulst()
+    Results()

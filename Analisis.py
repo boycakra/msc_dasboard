@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 from compare import main
-from Over_results import Resulst
+from Over_results import Results
 
 # Load data
 data_path = 'Map_full.csv'
@@ -100,7 +100,7 @@ def homepage():
 pages = {
     "Homepage": homepage,
     "Player Map": main,
-    "ResulstPlayer": Resulst 
+    "ResulstPlayer": Results 
     # Add the new page here
 }
 
