@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 from compare import main
-from over_results import results
+from overresults import results
 
 # Load data
 data_path = 'Map_full.csv'
